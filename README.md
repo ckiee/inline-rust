@@ -1,6 +1,5 @@
 # inline-rust-IMPROVEDESSERED
 
-Don't use it
-Find another solution
+Don't use this & don't allow execution of arbitraryryry rust
 
 Go back to e621
