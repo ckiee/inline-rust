@@ -13,7 +13,7 @@ use rand::{thread_rng, Rng};
 macro_rules! inline_rust {
     ($code:expr,$( $arg:ident : $aty:ty ),*) => {
         unsafe {
-            let __code: String = $code;
+            let __code: &str = $code;
             let mut __args = String::new();
             $(
                 let __arg = stringify!($arg);
@@ -23,7 +23,7 @@ macro_rules! inline_rust {
                 __args.push_str(&__ty);
                 __args.push(',');
             )*
-            let __lib = $crate::generate_rust_cdylib(format!(
+            let __lib = $crate::generate_rust_cdylib(&format!(
                 r#"#[no_mangle]
 pub extern "C" fn inline({args}) {{
     {}
@@ -48,7 +48,7 @@ pub extern "C" fn inline({args}) {{
     };
 }
 
-pub fn generate_rust_cdylib(code: String) -> Result<Library> {
+pub fn generate_rust_cdylib(code: &str) -> Result<Library> {
     let dir = temp_dir().join(format!("inline-rust_{}", thread_rng().gen::<u64>()));
     let dir_str = dir.as_os_str().to_str().ok_or(anyhow!("to_str none"))?;
     create_dir_all(&dir)?;
