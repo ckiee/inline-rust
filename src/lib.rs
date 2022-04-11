@@ -25,14 +25,14 @@ macro_rules! inline_rust {
             )*
             let __lib = $crate::generate_rust_cdylib(&format!(
                 r#"#[no_mangle]
-pub extern "C" fn inline({args}) {{
+pub extern "C" fn inline({args}) -> () {{
     {}
 }}"#,
                 __code,
                 args = __args
             ))
             .unwrap(); // TODO no unwrap ):
-            let __func: ::libloading::Symbol<unsafe extern "C" fn(
+            let __func: ::libloading::Symbol<extern "C" fn(
                 $(
                     $aty ,
                 )*
