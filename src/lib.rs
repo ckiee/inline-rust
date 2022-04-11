@@ -25,7 +25,7 @@ macro_rules! inline_rust {
             )*
             let __lib = $crate::generate_rust_cdylib(format!(
                 r#"#[no_mangle]
-pub unsafe extern "C" fn inline({args}) {{
+pub extern "C" fn inline({args}) {{
     {}
 }}"#,
                 __code,
@@ -40,7 +40,7 @@ pub unsafe extern "C" fn inline({args}) {{
                 __lib.get(b"inline").unwrap();
             __func(
                 $(
-                    $arg
+                    $arg ,
                 )*
             );
             __lib.close().unwrap();
